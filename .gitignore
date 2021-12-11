@@ -48,3 +48,19 @@ Thumbs.db
 *.mov
 *.wmv
 
+# virtualenv
+venv*
+.env
+logs/*
+
+# data files
+MediaIndex.json
+
+# test directories
+*/dummy_directories/*
+
+# vs code
+*-workspace
+
+# backup files
+*.bak
