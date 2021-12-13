@@ -19,7 +19,7 @@ def getResponse(errorCode, errorMessage):
     return Response(errorMessage, status=errorCode, mimetype="text/html")
 
 def serveIndex():
-    f = open(f"../frontend/index.html", "r")
+    f = open(f"../client/index.html", "r")
     return f.read()
 
 

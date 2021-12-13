@@ -1,0 +1,28 @@
+version: "2.1"
+
+services:
+
+  media_grab:
+    build: ./app-container
+    container_name: app-container
+    restart: always
+    expose:
+      - 8080
+    networks:
+      - toptenmap_default
+
+  nginx-container:
+    build: ./nginx-container
+    container_name: nginx-container
+    restart: always
+    ports:
+      - "7003:80"
+    depends_on:
+      - "media_grab"
+    networks:
+      - toptenmap_default
+
+networks:
+  toptenmap_default:
+    external:
+      name: toptenmap_default
