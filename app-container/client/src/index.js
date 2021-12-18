@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HelloWorld from './components/HelloWorld';
+import SplashHeader from './components/SplashHeader';
 
 ReactDOM.render(
    <React.StrictMode>
-      <HelloWorld />
+      <SplashHeader />
    </React.StrictMode>,
    document.getElementById('root')
 );

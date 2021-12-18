@@ -694,27 +694,29 @@
 	  };
 	}
 
-	var HelloWorld = /*#__PURE__*/function (_React$Component) {
-	  _inherits(HelloWorld, _React$Component);
+	var SplashHeader = /*#__PURE__*/function (_React$Component) {
+	  _inherits(SplashHeader, _React$Component);
 
-	  var _super = _createSuper(HelloWorld);
+	  var _super = _createSuper(SplashHeader);
 
-	  function HelloWorld() {
-	    _classCallCheck(this, HelloWorld);
+	  function SplashHeader() {
+	    _classCallCheck(this, SplashHeader);
 
 	    return _super.apply(this, arguments);
 	  }
 
-	  _createClass(HelloWorld, [{
+	  _createClass(SplashHeader, [{
 	    key: "render",
 	    value: function render() {
-	      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h1", null, "Hello World! bitch"));
+	      return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", null, "Tom Connolly")), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("img", {
+	        src: ""
+	      })), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("h3", null, "toptenmap")));
 	    }
 	  }]);
 
-	  return HelloWorld;
+	  return SplashHeader;
 	}(React.Component);
 
-	ReactDOM.render( /*#__PURE__*/React.createElement(React.StrictMode, null, /*#__PURE__*/React.createElement(HelloWorld, null)), document.getElementById('root'));
+	ReactDOM.render( /*#__PURE__*/React.createElement(React.StrictMode, null, /*#__PURE__*/React.createElement(SplashHeader, null)), document.getElementById('root'));
 
 })();
