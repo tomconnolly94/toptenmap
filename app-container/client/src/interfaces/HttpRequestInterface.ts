@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 interface Props {};
 interface State {
@@ -8,19 +9,12 @@ class HttpRequstInterface {
 	constructor() {
 	}
 
-    GetLocations(){
-        var suggestionStore = [
-            "New York",
-            "London",
-            "paris",
-            "Berlin",
-            "Tokyo",
-            "Dublin",
-            "Munich",
-            "Oslo",
-            "Birmingham",
-        ];
-        return suggestionStore;
+    GetLocations(successCallback: Function, failureCallback: Function){
+        // axios.get('http://localhost:5000/locations')
+        // .then((response) => {
+        //     successCallback();
+        // })
+        // .catch(err=>console.log(err))
     }
 }
 

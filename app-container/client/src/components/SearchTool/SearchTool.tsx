@@ -17,9 +17,11 @@ class SearchTool extends React.Component<Props, State> {
 
     componentWillMount(){
         let tripAdvisorInterface = new HttpRequstInterface();
-        var locations = tripAdvisorInterface.GetLocations();
+        tripAdvisorInterface.GetLocations(() => {
+            
+        }, () => {
 
-        console.log(locations);
+        });
     }
 	
 	search(event: any) {

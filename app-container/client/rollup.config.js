@@ -6,6 +6,12 @@ import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import postcss from 'rollup-plugin-postcss'
 import typescript from 'rollup-plugin-typescript2';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
+import image from 'rollup-plugin-img';
+import { isBundle } from 'typescript';
+
+let distPath = "dist";
+let mode = "development";
 
 export default {
    input: 'src/index.tsx',
@@ -22,18 +28,29 @@ export default {
             'node_modules/process-es6/**',
          ],
       }),
-      resolve(),
+      nodePolyfills(),
+      resolve({
+        browser: true,
+      }),
       babel({
          exclude: 'node_modules/**'
-      }),
-      replace({
-         'process.env.NODE_ENV': JSON.stringify('production'),
       }),
       postcss({
          autoModules: true
       }),
       typescript({
           typescript: require('typescript')
+      }),
+      image({
+         output: `${distPath}/images`, // default the root
+         extensions: /\.(png|jpg|jpeg|gif|svg)$/, // support png|jpg|jpeg|gif|svg, and it's alse the default value
+         limit: 8192,  // default 8192(8k)
+         exclude: 'node_modules/**'
+      }),
+      replace({
+         preventAssignment: true,
+         'process.browser': true,
+         'process.env.NODE_ENV': JSON.stringify(mode)
       }),
       livereload('public'),
       serve({

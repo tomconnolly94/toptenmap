@@ -1,7 +1,8 @@
 import React from "react";
-import { isPropertySignature } from "typescript";
 
 import './SplashHeader.css';
+
+import globeIcon from "../../../public/images/globeIcon.png";
 
 interface Props {
    host: string
@@ -27,7 +28,7 @@ class SplashHeader extends React.Component<Props, State> {
                   <h5>Tom Connolly</h5>
                </div>
                <div className="col-2">
-                  <img className="mx-auto d-block" width="100" height="100" src={this.state.logoSrc}/>
+                  <img className="mx-auto d-block" width="100" height="100" src={globeIcon}/>
                </div>
                <div className="col-5 d-flex align-items-center justify-content-center">
                   <h5>toptenmap</h5>
