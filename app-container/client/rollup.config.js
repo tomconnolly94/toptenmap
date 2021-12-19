@@ -5,9 +5,10 @@ import replace from '@rollup/plugin-replace';
 import serve from 'rollup-plugin-serve';
 import livereload from 'rollup-plugin-livereload';
 import postcss from 'rollup-plugin-postcss'
+import typescript from 'rollup-plugin-typescript2';
 
 export default {
-   input: 'src/index.js',
+   input: 'src/index.tsx',
    output: {
       file: 'public/index.js',
       format: 'iife',
@@ -30,6 +31,9 @@ export default {
       }),
       postcss({
          autoModules: true
+      }),
+      typescript({
+          typescript: require('typescript')
       }),
       livereload('public'),
       serve({
