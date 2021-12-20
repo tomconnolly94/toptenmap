@@ -10,7 +10,7 @@ interface Props {
     host: string
 };
 interface State {
-    splashHeaderMargin: number;
+    expandedMargin: boolean;
     searchToolVisible: boolean;
     attractions: Array<Attraction>;
     selectedLocation: string;
@@ -22,39 +22,71 @@ class IndexPage extends React.Component<Props, State> {
 	constructor(props: any) {
 		super(props);
         this.state = {
-            splashHeaderMargin: expandedMarginSize,
+            expandedMargin: true,
             searchToolVisible: true,
             attractions: [],
             selectedLocation: null
         };
 	}
 
-    locationSelected(location: Location){
+    getFakeAttractions(){
 
         var attractionsInLocation = new Array<Attraction>();
 
+        attractionsInLocation.push({
+            id: "1",
+            name: "Attraction 1",
+            country: "UK",
+            image_url: "image url 1",
+            stars: "4",
+        });
+
+        attractionsInLocation.push({
+            id: "2",
+            name: "Attraction 2",
+            country: "UK",
+            image_url: "image url 2",
+            stars: "5",
+        });
+
+        attractionsInLocation.push({
+            id: "3",
+            name: "Attraction 3",
+            country: "UK",
+            image_url: "image url 3",
+            stars: "2",
+        });
+        return attractionsInLocation;
+    }
+
+    locationSelected(location: Location){
+
+        var attractionsInLocation = this.getFakeAttractions();
+
         this.setState({
-            splashHeaderMargin: contractedMarginSize,
+            expandedMargin: false,
             searchToolVisible: false,
             attractions: attractionsInLocation,
             selectedLocation: location["name"]
         });
     }
 
-    locationDeselected(location: Location){
+    locationDeselected(){
         this.setState({
-            splashHeaderMargin: expandedMarginSize,
-            searchToolVisible: true
+            expandedMargin: true,
+            searchToolVisible: true,
+            attractions: [],
+            selectedLocation: null
         });
     }
 
 	render() {
 		return (
             <>
-                <SplashHeader host={this.props.host} topMargin={this.state.splashHeaderMargin}/>
+                <SplashHeader host={this.props.host} expandedMargin={this.state.expandedMargin}/>
                 { this.state.searchToolVisible ? 
                     <SearchTool itemSelected={(location: Location) => this.locationSelected(location)}/> 
-                    : <AttractionList selectedLocation={this.state.selectedLocation} attractions={this.state.attractions}/>
+                    : <AttractionList itemDeselected={() => this.locationDeselected()} selectedLocation={this.state.selectedLocation} attractions={this.state.attractions}/>
                     }
             </>
 		);
