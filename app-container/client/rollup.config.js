@@ -8,15 +8,13 @@ import postcss from 'rollup-plugin-postcss'
 import typescript from 'rollup-plugin-typescript2';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
 import image from 'rollup-plugin-img';
-import { isBundle } from 'typescript';
-
-let distPath = "dist";
+let distPath = "public/dist";
 let mode = "development";
 
 export default {
    input: 'src/index.tsx',
    output: {
-      file: 'public/index.js',
+      file: 'public/dist/index.js',
       format: 'iife',
    },
    plugins: [

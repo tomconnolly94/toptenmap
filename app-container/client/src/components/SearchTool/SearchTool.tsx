@@ -1,62 +1,52 @@
-import React from 'react';
+import React, { MouseEventHandler, MouseEvent } from 'react';
 
 import './SearchTool.css';
-import HttpRequstInterface from "../../interfaces/HttpRequestInterface"
+import HttpRequestInterface from "../../interfaces/HttpRequestInterface"
+import Location from "../../models/Location"
 
-interface Props {};
+interface Props {
+    itemSelected: Function
+};
 interface State {
-    suggestions: Array<string>
+    suggestions: Array<Location>
 };
 
 class SearchTool extends React.Component<Props, State> {
 	constructor(props: any) {
 		super(props);
-		this.state = { suggestions:[] };
+		this.state = { suggestions: new Array<Location>() };
 		this.search = this.search.bind(this);
 	}
-
-    componentWillMount(){
-        let tripAdvisorInterface = new HttpRequstInterface();
-        tripAdvisorInterface.GetLocations(() => {
-            
-        }, () => {
-
-        });
-    }
 	
 	search(event: any) {
 		let input = event.target.value;
-		let matches = [];
+        var reactComponentThis = this;
 
-        // these should be locations from tripadvisor
-        var suggestionStore = [
-            "New York",
-            "London",
-            "paris",
-            "Berlin",
-            "Tokyo",
-            "Dublin",
-            "Munich",
-            "Oslo",
-            "Birmingham",
-        ];
-		
-		if (input.length <= 1){
-            this.setState({ suggestions: [] });
-            return;
-        }
+        HttpRequestInterface.GetLocations(input, (locations: Array<Location>) => {
 
-        const inputRegexComparator =  new RegExp(input,'i');
-			
-        for (let i = 0; i < suggestionStore.length; i++) {
-            let potentialSuggestion = suggestionStore[i];
+            let matches = [];
 
-            if (potentialSuggestion.match(inputRegexComparator)) {
-                matches.push(potentialSuggestion);
+            if (input.length <= 1){
+                reactComponentThis.setState({ suggestions: new Array<Location>() });
+                return;
             }
-        }
-		
-		this.setState({ suggestions: matches });
+
+            const inputRegexComparator =  new RegExp(input,'i');
+                
+            for (let i = 0; i < locations.length; i++) {
+                let potentialSuggestion = locations[i];
+
+                if (potentialSuggestion.name.match(inputRegexComparator)) {
+                    matches.push(potentialSuggestion);
+                }
+            }
+            
+            reactComponentThis.setState({ suggestions: matches });
+
+        }, (response: any) => {
+            console.log("SearchTool.tsx error");
+            console.log(response);
+        });
 	}
 
 	render() {
@@ -71,10 +61,10 @@ class SearchTool extends React.Component<Props, State> {
 
                     <React.Fragment>
                         <ul id="location-suggestion-list" className="list-group">
-                            {this.state.suggestions.map(res => (
-                                <li className="list-group-item" key={res}>
-                                    {res}
-                                </li>
+                            {this.state.suggestions.map(suggestion => (
+                                <a href="#" className="list-group-item list-group-item-action" onClick={() => this.props.itemSelected(suggestion)} key={suggestion["id"]}>
+                                    {suggestion["name"]} - {suggestion["region"]} - {suggestion["country"]}
+                                </a>
                             ))}
                         </ul>
                     </React.Fragment>

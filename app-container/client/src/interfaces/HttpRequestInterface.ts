@@ -1,21 +1,28 @@
 import axios from 'axios';
 
-interface Props {};
-interface State {
-    suggestions: Array<string>
-};
-
-class HttpRequstInterface {
+class HttpRequestInterface {
 	constructor() {
 	}
 
-    GetLocations(successCallback: Function, failureCallback: Function){
-        // axios.get('http://localhost:5000/locations')
-        // .then((response) => {
-        //     successCallback();
-        // })
-        // .catch(err=>console.log(err))
+    static GetLocations(queryString: string, successCallback: Function, failureCallback: Function){
+        axios.get(`http://localhost:5000/locations?query=${queryString}`)
+        .then((response) => {
+            successCallback(response.data.locations);
+        })
+        .catch((response) => {
+            failureCallback(response);
+        })
+    }
+
+    static GetLocationAttractions(location: string, successCallback: Function, failureCallback: Function){
+        axios.get(`http://localhost:5000/attractions?query=${location}`)
+        .then((response) => {
+            successCallback(response.data.locations);
+        })
+        .catch((response) => {
+            failureCallback(response);
+        })
     }
 }
 
-export default HttpRequstInterface;
+export default HttpRequestInterface;

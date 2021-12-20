@@ -6,6 +6,7 @@ import globeIcon from "../../../public/images/globeIcon.png";
 
 interface Props {
    host: string
+   topMargin: number
 };
 
 interface State {
@@ -21,8 +22,12 @@ class SplashHeader extends React.Component<Props, State> {
    }
 
    render() {
+      let containerStyles = {
+            "margin-top": `${this.props.topMargin}px`
+      } as React.CSSProperties;
+      
       return (
-         <div id="SplashHeaderContainer" className="container">
+         <div id="SplashHeaderContainer" className="container" style={containerStyles}>
             <div className="row"> 
                <div className="col-5 d-flex align-items-center justify-content-center">
                   <h5>Tom Connolly</h5>

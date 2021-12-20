@@ -1,6 +1,7 @@
 #!/venv/bin/python
 
 # external dependencies
+from logging import debug
 from flask import Flask, request, Response, render_template
 from dotenv import load_dotenv
 from os.path import join, dirname
@@ -8,6 +9,8 @@ import os
 import json
 
 # internal dependencies
+from src.interfaces import SpottInterface
+
 #create app
 app = Flask(__name__, template_folder="../client")
 
@@ -23,10 +26,18 @@ def getResponse(responseCode, responseMessage):
 
 # api routes
 @app.route("/locations", methods=["GET"])
-def index():
-    return getResponse(200, "nuffin")
+def locationsEndpointHandler():
+    locationQuery = request.args.get('query')
+
+    locationsResponse = {
+        "locations": SpottInterface.getLocations(locationQuery)
+    }
+    response  = getResponse(200, json.dumps(locationsResponse))
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
 
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0",debug=True)
