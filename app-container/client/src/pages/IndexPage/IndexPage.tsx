@@ -4,6 +4,7 @@ import SplashHeader from '../../components/SplashHeader/SplashHeader';
 import SearchTool from '../../components/SearchTool/SearchTool';
 import AttractionList from '../../components/AttractionList/AttractionList';
 import Attraction from "../../models/Attraction";
+import Location from "../../models/Location";
 
 interface Props {
     host: string
@@ -12,7 +13,7 @@ interface State {
     splashHeaderMargin: number;
     searchToolVisible: boolean;
     attractions: Array<Attraction>;
-
+    selectedLocation: string;
 };
 const expandedMarginSize = 250;
 const contractedMarginSize = 50;
@@ -23,7 +24,8 @@ class IndexPage extends React.Component<Props, State> {
         this.state = {
             splashHeaderMargin: expandedMarginSize,
             searchToolVisible: true,
-            attractions: []
+            attractions: [],
+            selectedLocation: null
         };
 	}
 
@@ -34,7 +36,8 @@ class IndexPage extends React.Component<Props, State> {
         this.setState({
             splashHeaderMargin: contractedMarginSize,
             searchToolVisible: false,
-            attractions: attractionsInLocation
+            attractions: attractionsInLocation,
+            selectedLocation: location["name"]
         });
     }
 
@@ -51,7 +54,7 @@ class IndexPage extends React.Component<Props, State> {
                 <SplashHeader host={this.props.host} topMargin={this.state.splashHeaderMargin}/>
                 { this.state.searchToolVisible ? 
                     <SearchTool itemSelected={(location: Location) => this.locationSelected(location)}/> 
-                    : <AttractionList attractions={this.state.attractions}/>
+                    : <AttractionList selectedLocation={this.state.selectedLocation} attractions={this.state.attractions}/>
                     }
             </>
 		);
