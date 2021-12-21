@@ -1,6 +1,8 @@
 import axios from 'axios';
-import AttractionList from '../components/AttractionList/AttractionList';
+
+// internal dependencies
 import Attraction from '../models/Attraction';
+import Location from '../models/Location';
 
 class HttpRequestInterface {
 	constructor() {
@@ -9,7 +11,20 @@ class HttpRequestInterface {
     static GetLocations(queryString: string, successCallback: Function, failureCallback: Function){
         axios.get(`http://localhost:5000/locations?query=${queryString}`)
         .then((response) => {
-            successCallback(response.data.locations);
+            var locationsData = response.data.locations;
+
+            var locations = new Array<Location>();
+
+            locationsData.forEach((element: { [x: string]: string; }) => {
+                locations.push({
+                    id: element["fsqID"],
+                    name: element["name"],
+                    region: element["region"],
+                    country: element["country"]
+                })
+            });
+
+            successCallback(locations);
         })
         .catch((response) => {
             failureCallback(response);
