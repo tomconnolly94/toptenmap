@@ -5,46 +5,64 @@ import json
 import requests
 import os
 import pprint
+import enum
 
 # internal dependencies
+from src.models.Attraction import Attraction
+ 
+# creating enumerations using class
+class FourSquareUrlSuffixes(enum.Enum):
+    LOCATIONATTRACTIONS = 1
+    ATTRACTIONIMAGES = 2
 
-
-def getLocations():
-
-    foursquare_api_key = os.getenv("FOURSQUARE_API_KEY")
-
-
-    url = "https://api.foursquare.com/v3/places/search?query=lon"
-    url = "https://api.foursquare.com/v3/places/search?query=lon&near=united%20kingdom"
-
-    url = "https://api.foursquare.com/v3/places/search?categories=16000&near=London"
-
-    headers = {
-
+def getHeaders():
+    return {
         "Accept": "application/json",
-        "Authorization": foursquare_api_key
+        "Authorization": os.getenv("FOURSQUARE_API_KEY")
     }
 
-    response = requests.request("GET", url, headers=headers)
+def getFourSquareURL(urlType, embeddableInfo):
+
+    urlBase = "https://api.foursquare.com/v3/places"
+
+    if urlType == FourSquareUrlSuffixes.LOCATIONATTRACTIONS:
+        return f"{urlBase}/search?categories=16000&near={embeddableInfo}"
+    elif urlType == FourSquareUrlSuffixes.ATTRACTIONIMAGES:
+        return f"{urlBase}/{embeddableInfo}/photos"
 
 
-    pprint.pprint(response.text)
 
+def getAttractionImageURL():
+
+    url = getFourSquareURL(FourSquareUrlSuffixes.ATTRACTIONIMAGES,"4ac518cef964a520f8a520e3")
+
+    response = requests.request("GET", url, headers=getHeaders())
+    images = json.loads(response.text)
+    if len(images) <= 0:
+        raise Exception()
+    firstImage = json.loads(response.text)[0]
+
+    return f"{firstImage['prefix']}original{firstImage['suffix']}"
+
+
+
+def getAttractions(location: str):
+
+    url = getFourSquareURL(FourSquareUrlSuffixes.LOCATIONATTRACTIONS, location)
+
+    response = requests.request("GET", url, headers=getHeaders())
     results = json.loads(response.text)["results"]
 
+    attractions = []
 
     for result in results:
-        print(result["name"])
+        attractions.append(
+            Attraction( result["fsq_id"], 
+                        result["name"], 
+                        result["categories"][0]["name"], 
+                        result["location"]["country"], 
+                        result["location"]["region"]))
 
+    dictAttractions = [ attraction.toDict() for attraction in attractions ]
 
-    return [
-        "New York",
-        "London",
-        "paris",
-        "Berlin",
-        "Tokyo",
-        "Dublin",
-        "Munich",
-        "Oslo",
-        "Birmingham",
-    ]
+    return dictAttractions

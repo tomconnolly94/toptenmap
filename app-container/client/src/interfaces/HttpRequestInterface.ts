@@ -17,7 +17,7 @@ class HttpRequestInterface {
     static GetLocationAttractions(location: string, successCallback: Function, failureCallback: Function){
         axios.get(`http://localhost:5000/attractions?query=${location}`)
         .then((response) => {
-            successCallback(response.data.locations);
+            successCallback(response.data.attractions);
         })
         .catch((response) => {
             failureCallback(response);

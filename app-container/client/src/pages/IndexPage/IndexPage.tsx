@@ -5,6 +5,7 @@ import SearchTool from '../../components/SearchTool/SearchTool';
 import AttractionList from '../../components/AttractionList/AttractionList';
 import Attraction from "../../models/Attraction";
 import Location from "../../models/Location";
+import HttpRequestInterface from "../../interfaces/HttpRequestInterface"
 
 interface Props {
     host: string
@@ -61,13 +62,20 @@ class IndexPage extends React.Component<Props, State> {
 
     locationSelected(location: Location){
 
-        var attractionsInLocation = this.getFakeAttractions();
+        var reactComponent = this;
 
-        this.setState({
-            expandedMargin: false,
-            searchToolVisible: false,
-            attractions: attractionsInLocation,
-            selectedLocation: location["name"]
+        HttpRequestInterface.GetLocationAttractions(location["name"], (attractions: Array<Attraction>) => {
+            
+            reactComponent.setState({
+                expandedMargin: false,
+                searchToolVisible: false,
+                attractions: attractions,
+                selectedLocation: location["name"]
+            });
+
+        }, (response: any) => {
+            console.log("SearchTool.tsx error");
+            console.log(response);
         });
     }
 
