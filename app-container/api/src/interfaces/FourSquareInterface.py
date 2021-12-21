@@ -32,9 +32,9 @@ def getFourSquareURL(urlType, embeddableInfo):
 
 
 
-def getAttractionImageURL():
+def getAttractionImageURL(fsqID):
 
-    url = getFourSquareURL(FourSquareUrlSuffixes.ATTRACTIONIMAGES,"4ac518cef964a520f8a520e3")
+    url = getFourSquareURL(FourSquareUrlSuffixes.ATTRACTIONIMAGES, fsqID)
 
     response = requests.request("GET", url, headers=getHeaders())
     images = json.loads(response.text)
@@ -42,7 +42,7 @@ def getAttractionImageURL():
         raise Exception()
     firstImage = json.loads(response.text)[0]
 
-    return f"{firstImage['prefix']}original{firstImage['suffix']}"
+    return f"{firstImage['prefix']}75x75{firstImage['suffix']}"
 
 
 
@@ -61,7 +61,10 @@ def getAttractions(location: str):
                         result["name"], 
                         result["categories"][0]["name"], 
                         result["location"]["country"], 
-                        result["location"]["region"]))
+                        result["location"]["region"],
+                        getAttractionImageURL(result["fsq_id"])
+            )
+        )
 
     dictAttractions = [ attraction.toDict() for attraction in attractions ]
 

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, MouseEvent } from 'react';
+import React from 'react';
 
 import SplashHeader from '../../components/SplashHeader/SplashHeader';
 import SearchTool from '../../components/SearchTool/SearchTool';
@@ -29,36 +29,6 @@ class IndexPage extends React.Component<Props, State> {
             selectedLocation: null
         };
 	}
-
-    getFakeAttractions(){
-
-        var attractionsInLocation = new Array<Attraction>();
-
-        attractionsInLocation.push({
-            id: "1",
-            name: "Attraction 1",
-            country: "UK",
-            image_url: "image url 1",
-            stars: "4",
-        });
-
-        attractionsInLocation.push({
-            id: "2",
-            name: "Attraction 2",
-            country: "UK",
-            image_url: "image url 2",
-            stars: "5",
-        });
-
-        attractionsInLocation.push({
-            id: "3",
-            name: "Attraction 3",
-            country: "UK",
-            image_url: "image url 3",
-            stars: "2",
-        });
-        return attractionsInLocation;
-    }
 
     locationSelected(location: Location){
 
@@ -92,6 +62,7 @@ class IndexPage extends React.Component<Props, State> {
 		return (
             <>
                 <SplashHeader host={this.props.host} expandedMargin={this.state.expandedMargin}/>
+                
                 { this.state.searchToolVisible ? 
                     <SearchTool itemSelected={(location: Location) => this.locationSelected(location)}/> 
                     : <AttractionList itemDeselected={() => this.locationDeselected()} selectedLocation={this.state.selectedLocation} attractions={this.state.attractions}/>

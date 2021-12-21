@@ -1,12 +1,13 @@
 
 class Attraction():
 
-    def __init__(self, fsqID: str, name: str, category: str, country: str, region: str):
+    def __init__(self, fsqID: str, name: str, category: str, country: str, region: str, imageURL: str):
         self.fsqID = fsqID
         self.name = name
         self.category = category
         self.country = country
         self.region = region
+        self.imageURL = imageURL
 
     def toDict(self):
         return {
@@ -15,4 +16,5 @@ class Attraction():
             "category": self.category,
             "country": self.country,
             "region": self.region,
+            "imageURL": self.imageURL
         }

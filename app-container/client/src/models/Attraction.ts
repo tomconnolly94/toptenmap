@@ -1,9 +1,10 @@
 type Attraction = {
     id: string,
     name: string,
+    category: string,
     country: string,
-    image_url: string,
-    stars: string,
+    region: string,
+    imageURL: string,
 }
 
 export default Attraction;

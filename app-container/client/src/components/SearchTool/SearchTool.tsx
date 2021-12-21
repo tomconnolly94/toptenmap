@@ -3,6 +3,8 @@ import React, { MouseEventHandler, MouseEvent } from 'react';
 import './SearchTool.css';
 import HttpRequestInterface from "../../interfaces/HttpRequestInterface"
 import Location from "../../models/Location"
+import AttractionTile from '../AttractionTile/AttractionTile';
+import Attraction from '../../models/Attraction';
 
 interface Props {
     itemSelected: Function
@@ -50,6 +52,7 @@ class SearchTool extends React.Component<Props, State> {
 	}
 
 	render() {
+
 		return (
             <div id="SearchToolContainer" className="container">
                <div id="searchBarContainer" className="row"> 
